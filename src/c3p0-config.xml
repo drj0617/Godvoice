@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c3p0-config>
+  <default-config>
+    <property name="driverClass">com.mysql.jdbc.Driver</property>
+	<property name="jdbcUrl">jdbc:mysql:///godvoice</property>
+	<property name="user">root</property>
+	<property name="password">123456</property>
+	<property name="initialPoolSize">5</property>
+	<property name="maxPoolSize">20</property>
+	<!-- 设置自动回收超时连接 -->  
+     <property name="removeAbandoned" value="true" />
+<!-- 自动回收超时时间(以秒数为单位) -->  
+     <property name="removeAbandonedTimeout" value="200"/>
+  </default-config>
+</c3p0-config>

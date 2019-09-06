@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html><head>
+		<meta charset="UTF-8">
+		<title>网站注册页面</title>
+		<script src="jquery-3.2.1.js"></script>
+		<script src="jquery.validate.js"></script>
+		<script>
+		$(function(){
+			$.validator.addMethod("rightCheckcode",function(value,element,params){
+	 			var isValidCode = false;
+	 			$.ajax({
+	 				url : "/Godvoice/CheckCodeServlet",
+	 				data :{
+	 					"checkcode" : value
+	 				},
+	 				success : function(data) {
+						isValidCode = data.isValidCode;
+					},
+	 				dataType : "json",
+	 				async : false
+	 			});
+	 			return isValidCode;
+	 		});
+			$("#registForm").validate({
+				   rules:{
+				    uname:{
+				     required:true,
+				     minlength:6,
+				     maxlength:16,
+				    },
+				    password:{
+				     required:true,
+				     minlength:6,
+				     maxlength:20
+				    },
+				    passwordAgin:{
+				     required:true,
+				     equalTo:"[name='password']"
+				    },
+				    email:{
+				     required:true,
+				     email:true
+				    },
+				    mobilenum:{
+				     required:true,
+				     digits:true,
+				     minlength:11
+				    },
+				    inputcode : {
+						required : true,
+						rightCheckcode : true
+					}
+				   },
+				   messages:{
+				    uname:{
+				     required:"用户名不能为空",
+				     minlength:"用户名长度不能少于6位",
+				     maxlength:"用户名长度不能超过16位",
+				    },
+				    password:{
+				     required:"密码不能为空",
+				     minlength:"密码长度不能少于6位",
+				     maxlength:"密码长度不能超过20位"
+				    },
+				    passwordAgin:{
+				     required:"密码不能为空",
+				     equalTo:"两次密码不一致"
+				    },
+				    email:{
+				     required:"邮箱不能为空",
+				     email:"邮箱格式不对"
+				    },
+				    mobilenum:{
+				     required:"电话不能为空",
+				     digits:"电话只能为数字",
+				     minlength:"电话长度不能少于11位"
+				   },
+				   inputcode : {
+						required : "验证码不能为空",
+						rightCheckcode : "验证码错误"
+					}
+				 }
+			});
+			$("#checkCode").click(function(){
+				$("#checkCode").prop("src","/Godvoice/CheckImgServlet?time="+new Date());
+			});
+		});
+			
+		</script>
+
+		<style>
+		    body{
+		   
+		    width:100%;
+		    height:100%;  
+		    }
+			#contanier{
+			 background-image:url(/Godvoice/images/background1.jpg); 
+		     background-repeat:no-repeat;
+				border: 0px solid white;
+				width: 1300px;
+				margin: auto;
+			}
+			
+			#form{
+				
+				height: 500px;
+				padding-top: 70px;
+				margin-bottom: 10px;
+			}
+			
+			
+			
+			a{
+				text-decoration: none;
+			}
+			
+			label.error{
+				padding-left: 30px;
+				font-family:georgia;
+				font-size: 15px;
+				font-style: normal;
+				color: red;
+			}
+			
+			label.success{
+				background:url(/Godvoice/img/checked.gif) no-repeat 10px 3px;
+				padding-left: 30px;
+			}
+			
+			#father{
+				border: 0px solid white;
+				padding-left: 307px;
+			}
+			
+			#form2{
+				border: 5px solid gray;
+				width: 660px;
+				height: 450px;
+			}
+			
+		</style>
+		
+	</head>
+	<body >
+		<div id="contanier">
+			
+			
+			<div id="form">
+				<form action="/Godvoice/RegisterServlet" method="post" id="registForm" novalidate="novalidate" >
+					<div id="father">
+						<div id="form2">
+							<table border="0px" width="100%" height="100%" align="center" cellpadding="0px" cellspacing="0px" bgcolor="white">
+								<tbody><tr>
+									<td colspan="2">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<font size="5">会员注册</font>&nbsp;&nbsp;&nbsp;USER REGISTER 
+									</td>
+								</tr>
+								<tr>
+									<td>
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;
+										Email地址
+									</td>
+									<td>
+										<em style="color: red;">*</em>&nbsp;&nbsp;&nbsp;<input type="text" name="email" size="35px" id="email">
+									</td>
+								</tr>
+								<tr>
+									<td width="180px">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;
+										<label for="user">用户名</label>
+									</td>
+									<td>
+										<em style="color: red;">*</em>&nbsp;&nbsp;&nbsp;<input type="text" name="uname" size="35px" id="user">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;
+										密码
+									</td>
+									<td>
+										<em style="color: red;">*</em>&nbsp;&nbsp;&nbsp;<input type="password" name="password" size="35px" id="password">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;
+										确认密码
+									</td>
+									<td>
+										<em style="color: red;">*</em>&nbsp;&nbsp;&nbsp;<input type="password" name="passwordAgin" size="35px">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;
+										手机号码
+									</td>
+									<td>
+										<em style="color: red;">*</em>&nbsp;&nbsp;&nbsp;<input type="text" name="mobilenum" size="35px" id="mobilenum">
+									</td>
+								</tr>
+								
+								
+								
+								
+								<tr>
+									<td>
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;
+										验证码
+									</td>
+									<td>
+										<em style="color: red;">*</em>&nbsp;&nbsp;&nbsp;<input type="text" name="inputcode">
+										<img src="/Godvoice/CheckImgServlet" style="height: 30px;width: 100px;" id="checkCode" >
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="submit" value="注      册" height="50px">
+									</td>
+								</tr>
+							</tbody></table>
+						</div>
+					</div>
+				</form>
+			</div>
+			
+			
+		</div>
+	
+
+</body></html>

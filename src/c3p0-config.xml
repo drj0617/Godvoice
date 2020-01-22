@@ -2,7 +2,7 @@
 <c3p0-config>
   <default-config>
     <property name="driverClass">com.mysql.jdbc.Driver</property>
-	<property name="jdbcUrl">jdbc:mysql:///godvoice</property>
+	<property name="jdbcUrl">jdbc:mysql:///godvoice?serverTimezone=GMT%2b8</property>
 	<property name="user">root</property>
 	<property name="password">123456</property>
 	<property name="initialPoolSize">5</property>
